@@ -64,7 +64,6 @@ private-dotfiles/
 ├── key                         # Age encryption key (from Bitwarden)
 ├── .decrypted.hash             # Hash of decrypted folder (for caching)
 └── decrypted/                  # Decrypted dotfiles
-    └── work/                   # Example stow package
 ```
 
 ## Workflow
