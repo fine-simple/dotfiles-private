@@ -11,6 +11,15 @@ compute_hash() {
     fi
 }
 
+
+# Stow dotfiles from decrypted folder to home directory
+stow_it() {
+    echo "Stowing dotfiles to home directory..."
+    cd decrypted
+    stow . -t "$HOME"
+    cd ..
+}
+
 # Check if decrypted folder exists and hash matches
 if [ -d "decrypted" ] && [ -f ".decrypted.hash" ]; then
     echo "Checking if decrypted folder is up to date..."
@@ -19,7 +28,8 @@ if [ -d "decrypted" ] && [ -f ".decrypted.hash" ]; then
     
     if [ "$current_hash" = "$stored_hash" ]; then
         echo "Decrypted folder is already up to date. Skipping setup."
-        exit 0
+        stow_it
+	exit 0
     else
         echo "Decrypted folder hash mismatch. Re-running setup..."
 				rm -rf decrypted
@@ -60,6 +70,7 @@ fi
 # Login to Bitwarden
 echo "Logging into Bitwarden..."
 bw login || echo "Already logged in or login failed. Continuing..."
+bw sync
 
 # Unlock Bitwarden and store session key
 export BW_SESSION=$(bw unlock --raw)
@@ -88,11 +99,7 @@ if [ ! -d "decrypted" ]; then
     exit 1
 fi
 
-# Stow dotfiles from decrypted folder to home directory
-echo "Stowing dotfiles to home directory..."
-cd decrypted
-stow -t "$HOME" */
-cd ..
+stow_it
 
 # Store hash of decrypted folder for future checks
 echo "Storing hash of decrypted folder..."
