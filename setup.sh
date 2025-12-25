@@ -62,8 +62,8 @@ if ! command -v stow &> /dev/null; then
 fi
 
 # Check if encrypted file exists
-if [ ! -f "private-dotfiles.tar.age" ]; then
-    echo "Error: private-dotfiles.tar.age not found"
+if [ ! -f "private.tar.age" ]; then
+    echo "Error: private.tar.age not found"
     exit 1
 fi
 
@@ -89,9 +89,9 @@ if [ ! -s key ]; then
     exit 1
 fi
 
-# Decrypt the private-dotfiles.tar.age using the key
-echo "Decrypting private-dotfiles.tar.age..."
-age -d -i key private-dotfiles.tar.age | tar -x
+# Decrypt the private.tar.age using the key
+echo "Decrypting private.tar.age..."
+age -d -i key private.tar.age | tar -x
 
 # Check if decrypted folder exists
 if [ ! -d "decrypted" ]; then

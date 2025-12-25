@@ -47,11 +47,11 @@ fi
 
 # Create tar archive and encrypt it
 echo "Creating encrypted archive..."
-tar -cf - decrypted | age -e -i key > private-dotfiles.tar.age.new
+tar -cf - decrypted | age -e -i key > private.tar.age.new
 
 # Replace old encrypted file with new one
 echo "Replacing old encrypted file..."
-mv private-dotfiles.tar.age.new private-dotfiles.tar.age
+mv private.tar.age.new private.tar.age
 
 # Update hash file
 echo "Updating hash file..."
